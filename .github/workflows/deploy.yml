@@ -43,11 +43,13 @@ jobs:
           enabledSources.forEach(source => {
             const sourceChannels = data.channels.filter(c => c.sourceId === source.id && c.enabled);
             sourceChannels.forEach(channel => {
-              m3uContent += '#EXTINF:-1 tvg-logo=\"' + (channel.logo || '') + '\" group-title=\"' + (channel.group || source.name) + '\",' + channel.name + '\n';
+              const tvgId = channel.tvgId ? 'tvg-id=\"' + channel.tvgId + '\"' : '';
+              m3uContent += '#EXTINF:-1 ' + tvgId + ' group-title=\"' + (channel.group || source.name) + '\",' + channel.name + '\n';
               m3uContent += channel.url + '\n';
             });
           });
           fs.writeFileSync('public/playlist.m3u', m3uContent);
+          console.log('M3U file generated with ' + (m3uContent.match(/#EXTINF/g) || []).length + ' channels');
           "
 
       - name: Setup Pages
