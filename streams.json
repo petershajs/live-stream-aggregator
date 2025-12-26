@@ -1,0 +1,44 @@
+{
+  "streams": [
+    {
+      "id": 1,
+      "name": "CCTV-1",
+      "logo": "",
+      "url": "http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8",
+      "group": "央视",
+      "enabled": true
+    },
+    {
+      "id": 2,
+      "name": "CCTV-2",
+      "logo": "",
+      "url": "http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8",
+      "group": "央视",
+      "enabled": true
+    },
+    {
+      "id": 3,
+      "name": "CCTV-3",
+      "logo": "",
+      "url": "http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8",
+      "group": "央视",
+      "enabled": true
+    },
+    {
+      "id": 4,
+      "name": "湖南卫视",
+      "logo": "",
+      "url": "http://ivi.bupt.edu.cn/hls/hunanhd.m3u8",
+      "group": "卫视",
+      "enabled": true
+    },
+    {
+      "id": 5,
+      "name": "浙江卫视",
+      "logo": "",
+      "url": "http://ivi.bupt.edu.cn/hls/zjhd.m3u8",
+      "group": "卫视",
+      "enabled": true
+    }
+  ]
+}
