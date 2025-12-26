@@ -3,6 +3,9 @@ let sources = [];
 let channels = [];
 let filteredChannels = [];
 
+// 检测是否为GitHub Pages环境
+const isGitHubPages = window.location.hostname.includes('github.io');
+
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
   loadData();
@@ -12,8 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
 // 加载数据
 async function loadData() {
   try {
-    const response = await fetch('/api/data');
-    const data = await response.json();
+    let data;
+    
+    if (isGitHubPages) {
+      // GitHub Pages环境：直接读取data.json文件
+      const response = await fetch('data.json');
+      data = await response.json();
+    } else {
+      // 本地环境：调用API接口
+      const response = await fetch('/api/data');
+      data = await response.json();
+    }
+    
     sources = data.sources || [];
     channels = data.channels || [];
     filteredChannels = [...channels];
@@ -113,6 +126,12 @@ function editSource(id) {
 async function saveSource(e) {
   e.preventDefault();
   
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   const id = document.getElementById('sourceId').value;
   const name = document.getElementById('sourceName').value.trim();
   const url = document.getElementById('sourceUrl').value.trim();
@@ -149,6 +168,12 @@ async function saveSource(e) {
 
 // 删除源
 async function deleteSource(id) {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   if (!confirm('确定要删除这个直播源吗？这将同时删除该源的所有频道。')) return;
   
   try {
@@ -172,6 +197,12 @@ async function deleteSource(id) {
 
 // 切换源状态
 async function toggleSource(id) {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   const source = sources.find(s => s.id === id);
   if (!source) return;
   
@@ -198,6 +229,12 @@ async function toggleSource(id) {
 
 // 解析源
 async function parseSource(id) {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   const source = sources.find(s => s.id === id);
   if (!source) return;
   
@@ -297,6 +334,12 @@ function handleSearch(e) {
 
 // 切换频道状态
 async function toggleChannel(id) {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   const channel = channels.find(c => c.id === id);
   if (!channel) return;
   
@@ -323,6 +366,12 @@ async function toggleChannel(id) {
 
 // 删除频道
 async function deleteChannel(id) {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   if (!confirm('确定要删除这个频道吗？')) return;
   
   try {
@@ -346,6 +395,12 @@ async function deleteChannel(id) {
 
 // 批量操作
 async function batchEnable() {
+  // GitHub Pages环境不支持编辑功能
+  if (isGitHubPages) {
+    showToast('GitHub Pages版本仅支持查看，请在本地运行完整版', 'error');
+    return;
+  }
+  
   const enabledChannels = filteredChannels.filter(c => c.enabled);
   if (enabledChannels.length === 0) {
     showToast('没有可操作的频道', 'warning');
