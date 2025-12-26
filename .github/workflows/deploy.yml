@@ -37,12 +37,15 @@ jobs:
         run: |
           node -e "
           const fs = require('fs');
-          const data = JSON.parse(fs.readFileSync('streams.json', 'utf8'));
-          const enabledStreams = data.streams.filter(s => s.enabled);
+          const data = JSON.parse(fs.readFileSync('data.json', 'utf8'));
+          const enabledSources = data.sources.filter(s => s.enabled);
           let m3uContent = '#EXTM3U\n';
-          enabledStreams.forEach(stream => {
-            m3uContent += '#EXTINF:-1 tvg-logo=\"' + stream.logo + '\" group-title=\"' + stream.group + '\",' + stream.name + '\n';
-            m3uContent += stream.url + '\n';
+          enabledSources.forEach(source => {
+            const sourceChannels = data.channels.filter(c => c.sourceId === source.id && c.enabled);
+            sourceChannels.forEach(channel => {
+              m3uContent += '#EXTINF:-1 tvg-logo=\"' + (channel.logo || '') + '\" group-title=\"' + (channel.group || source.name) + '\",' + channel.name + '\n';
+              m3uContent += channel.url + '\n';
+            });
           });
           fs.writeFileSync('public/playlist.m3u', m3uContent);
           "
